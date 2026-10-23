@@ -57,3 +57,25 @@ provides files; it cannot recreate agent conversation history or platform eviden
   fenced, labelled exercise, never weaken the actual executable test.
 - A2/A3/A4 are fallback intent/spec/plan artifacts; branch files can supply them.
   A8 means a pre-run PR, which cannot be replaced with a fictitious PR URL.
+
+## Additional executed verification
+
+The original storefront was exercised in installed Chromium through CDP:
+eight catalogue cards, View Book, Back, About and Home all passed with no
+uncaught JavaScript exception. Phase 1 was also exercised over live HTTP:
+POST /api/carts returned 201 and GET returned 200 with matching empty contents.
+
+The actual shell block named “Check every required section is present and
+complete” in assign-to-agent.yml was extracted and run locally against a
+synthetic issue body containing all six headings with empty contents, plus
+three checked boxes. It returned exit 0. This is a confirmed validator limitation:
+it checks heading presence, _No response_ and checked-box count, not substantive
+content. Maintainer review of the rendered body remains essential. No live
+issue was created and no workflow source was changed for this check.
+
+The GitHub API restriction was isolated to the HTTPS proxy: unauthenticated
+curl to api.github.com fails its CONNECT tunnel with HTTP 403 from Envoy.
+This is not evidence that GitHub credentials are absent or invalid. Git HTTPS
+read/push works. If API-based verification is wanted later, the environment
+needs api.github.com allowed; inspect credential usability only after that
+network prerequisite is resolved. No token was requested or printed.
