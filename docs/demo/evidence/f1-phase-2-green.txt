@@ -1,0 +1,19 @@
+
+> chapter-one-bookshop@1.0.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /workspace/chapter-one-bookshop-day-2
+
+
+ Test Files  6 passed (6)
+      Tests  39 passed (39)
+   Start at  09:00:28
+   Duration  760ms (transform 324ms, setup 0ms, import 1.05s, tests 387ms, environment 1ms)
+
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+Exit status: 0

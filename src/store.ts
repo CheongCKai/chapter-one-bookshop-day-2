@@ -7,6 +7,15 @@ import { SEED_BOOKS } from "./data/seed.js";
  * State lives only for the life of the process — restarting the server resets
  * everything back to the seed. That is a deliberate teaching choice, not a bug.
  */
+export class CartError extends Error {
+  constructor(
+    public readonly status: 400 | 404,
+    message: string,
+  ) {
+    super(message);
+  }
+}
+
 class Store {
   private books: Book[] = [];
   private carts = new Map<string, Cart>();
@@ -31,6 +40,38 @@ class Store {
   getCart(cartId: string): Cart | undefined {
     const cart = this.carts.get(cartId);
     return cart ? this.copyCart(cart) : undefined;
+  }
+
+  addCartItem(cartId: string, bookId: string, quantity: number): Cart {
+    const cart = this.carts.get(cartId);
+    if (!cart) throw new CartError(404, "Cart not found");
+    const book = this.getBook(bookId);
+    if (!book) throw new CartError(404, "Book not found");
+    const existing = cart.items.find((item) => item.bookId === bookId);
+    const combined = (existing?.quantity ?? 0) + quantity;
+    if (
+      !Number.isSafeInteger(quantity) ||
+      quantity <= 0 ||
+      !Number.isSafeInteger(combined) ||
+      combined > book.stock
+    ) {
+      throw new CartError(400, "Quantity must be a positive integer within available stock");
+    }
+    if (existing) {
+      existing.quantity = combined;
+      existing.lineTotal = (Math.round(existing.unitPrice * 100) * combined) / 100;
+    } else {
+      cart.items.push({
+        bookId,
+        title: book.title,
+        unitPrice: book.price,
+        quantity,
+        lineTotal: (Math.round(book.price * 100) * quantity) / 100,
+      });
+    }
+    cart.total =
+      cart.items.reduce((cents, item) => cents + Math.round(item.lineTotal * 100), 0) / 100;
+    return this.copyCart(cart);
   }
 
   private copyCart(cart: Cart): Cart {

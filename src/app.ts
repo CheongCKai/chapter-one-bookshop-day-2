@@ -1,4 +1,5 @@
-import express from "express";
+import express, { type ErrorRequestHandler } from "express";
+import { CartError } from "./store.js";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { cartsRouter } from "./routes/carts.js";
@@ -27,6 +28,21 @@ export function createApp() {
   app.use("/api", (_req, res) => {
     res.status(404).json({ error: "Not Found" });
   });
+
+  const jsonErrors: ErrorRequestHandler = (error: unknown, _req, res, next) => {
+    if (error instanceof CartError) {
+      res.status(error.status).json({ error: error.message });
+    } else if (
+      error instanceof SyntaxError &&
+      "type" in error &&
+      error.type === "entity.parse.failed"
+    ) {
+      res.status(400).json({ error: "Invalid JSON body" });
+    } else {
+      next(error);
+    }
+  };
+  app.use(jsonErrors);
 
   return app;
 }
