@@ -1,0 +1,304 @@
+
+> chapter-one-bookshop@1.0.0 test
+> vitest run tests/low-stock.test.ts
+
+
+ RUN  v4.1.11 /workspace/chapter-one-bookshop-day-2
+
+ ❯ tests/low-stock.test.ts (12 tests | 8 failed) 24ms
+     × renders the correct cue at stock 1 9ms
+     × renders the correct cue at stock 2 3ms
+     × renders the correct cue at stock 3 2ms
+     × keeps dangerous title and author text escaped beside the cue 2ms
+     × renders the correct cue at stock 1 1ms
+     × renders the correct cue at stock 2 1ms
+     × renders the correct cue at stock 3 1ms
+     × keeps dangerous title and author text escaped beside the cue 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/low-stock.test.ts > catalogue card low-stock cue > renders the correct cue at stock 1
+AssertionError: expected '\n    <article class="card" data-id="…' to contain 'Only 1 copy left'
+
+- Expected
++ Received
+
+- Only 1 copy left
++
++     <article class="card" data-id="quiet-orbit">
++       <div
++         class="cover"
++         role="img"
++         aria-label="Cover of Quiet Orbit"
++         style="background-color:#2A2456;background-image:url('covers/quiet-orbit.jpg')"
++       ></div>
++       <h3 class="card-title">Quiet Orbit</h3>
++       <p class="card-author">Samuel Reyes</p>
++       <div class="card-foot">
++         <span class="price">$15.99</span>
++         <button class="btn view-btn" data-id="quiet-orbit">View Book</button>
++       </div>
++     </article>
+
+ ❯ tests/low-stock.test.ts:35:22
+     33|         expect(html).not.toContain('class="low-stock"');
+     34|       } else {
+     35|         expect(html).toContain(message);
+       |                      ^
+     36|         expect(html).toContain('class="low-stock"');
+     37|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  tests/low-stock.test.ts > catalogue card low-stock cue > renders the correct cue at stock 2
+AssertionError: expected '\n    <article class="card" data-id="…' to contain 'Only 2 copies left'
+
+- Expected
++ Received
+
+- Only 2 copies left
++
++     <article class="card" data-id="quiet-orbit">
++       <div
++         class="cover"
++         role="img"
++         aria-label="Cover of Quiet Orbit"
++         style="background-color:#2A2456;background-image:url('covers/quiet-orbit.jpg')"
++       ></div>
++       <h3 class="card-title">Quiet Orbit</h3>
++       <p class="card-author">Samuel Reyes</p>
++       <div class="card-foot">
++         <span class="price">$15.99</span>
++         <button class="btn view-btn" data-id="quiet-orbit">View Book</button>
++       </div>
++     </article>
+
+ ❯ tests/low-stock.test.ts:35:22
+     33|         expect(html).not.toContain('class="low-stock"');
+     34|       } else {
+     35|         expect(html).toContain(message);
+       |                      ^
+     36|         expect(html).toContain('class="low-stock"');
+     37|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  tests/low-stock.test.ts > catalogue card low-stock cue > renders the correct cue at stock 3
+AssertionError: expected '\n    <article class="card" data-id="…' to contain 'Only 3 copies left'
+
+- Expected
++ Received
+
+- Only 3 copies left
++
++     <article class="card" data-id="quiet-orbit">
++       <div
++         class="cover"
++         role="img"
++         aria-label="Cover of Quiet Orbit"
++         style="background-color:#2A2456;background-image:url('covers/quiet-orbit.jpg')"
++       ></div>
++       <h3 class="card-title">Quiet Orbit</h3>
++       <p class="card-author">Samuel Reyes</p>
++       <div class="card-foot">
++         <span class="price">$15.99</span>
++         <button class="btn view-btn" data-id="quiet-orbit">View Book</button>
++       </div>
++     </article>
+
+ ❯ tests/low-stock.test.ts:35:22
+     33|         expect(html).not.toContain('class="low-stock"');
+     34|       } else {
+     35|         expect(html).toContain(message);
+       |                      ^
+     36|         expect(html).toContain('class="low-stock"');
+     37|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  tests/low-stock.test.ts > catalogue card low-stock cue > keeps dangerous title and author text escaped beside the cue
+AssertionError: expected '\n    <article class="card" data-id="…' to contain 'Only 1 copy left'
+
+- Expected
++ Received
+
+- Only 1 copy left
++
++     <article class="card" data-id="quiet-orbit">
++       <div
++         class="cover"
++         role="img"
++         aria-label="Cover of &lt;script&gt;bad()&lt;/script&gt;"
++         style="background-color:#2A2456;background-image:url('covers/quiet-orbit.jpg')"
++       ></div>
++       <h3 class="card-title">&lt;script&gt;bad()&lt;/script&gt;</h3>
++       <p class="card-author">&lt;img src=x onerror=&quot;bad()&quot;&gt;</p>
++       <div class="card-foot">
++         <span class="price">$15.99</span>
++         <button class="btn view-btn" data-id="quiet-orbit">View Book</button>
++       </div>
++     </article>
+
+ ❯ tests/low-stock.test.ts:50:20
+     48|         author: '<img src=x onerror="bad()">',
+     49|       });
+     50|       expect(html).toContain("Only 1 copy left");
+       |                    ^
+     51|       expect(html).toContain("&lt;script&gt;");
+     52|       expect(html).toContain("&lt;img");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  tests/low-stock.test.ts > book detail low-stock cue > renders the correct cue at stock 1
+AssertionError: expected '\n    <div class="detail">\n      <di…' to contain 'Only 1 copy left'
+
+- Expected
++ Received
+
+- Only 1 copy left
++
++     <div class="detail">
++       <div
++         class="detail-cover"
++         role="img"
++         aria-label="Cover of Quiet Orbit"
++         style="background-color:#2A2456;background-image:url('covers/quiet-orbit.jpg')"
++       ></div>
++       <div class="detail-body">
++         <p class="detail-genre">Sci-Fi</p>
++         <h2>Quiet Orbit</h2>
++         <p class="detail-author">by Samuel Reyes</p>
++         <p class="price detail-price">$15.99</p>
++         <p class="detail-desc">A maintenance crew learns the silence is listening back.</p>
++         <button class="btn ghost" id="back-btn">&larr; Back to catalogue</button>
++       </div>
++     </div>
+
+ ❯ tests/low-stock.test.ts:35:22
+     33|         expect(html).not.toContain('class="low-stock"');
+     34|       } else {
+     35|         expect(html).toContain(message);
+       |                      ^
+     36|         expect(html).toContain('class="low-stock"');
+     37|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  tests/low-stock.test.ts > book detail low-stock cue > renders the correct cue at stock 2
+AssertionError: expected '\n    <div class="detail">\n      <di…' to contain 'Only 2 copies left'
+
+- Expected
++ Received
+
+- Only 2 copies left
++
++     <div class="detail">
++       <div
++         class="detail-cover"
++         role="img"
++         aria-label="Cover of Quiet Orbit"
++         style="background-color:#2A2456;background-image:url('covers/quiet-orbit.jpg')"
++       ></div>
++       <div class="detail-body">
++         <p class="detail-genre">Sci-Fi</p>
++         <h2>Quiet Orbit</h2>
++         <p class="detail-author">by Samuel Reyes</p>
++         <p class="price detail-price">$15.99</p>
++         <p class="detail-desc">A maintenance crew learns the silence is listening back.</p>
++         <button class="btn ghost" id="back-btn">&larr; Back to catalogue</button>
++       </div>
++     </div>
+
+ ❯ tests/low-stock.test.ts:35:22
+     33|         expect(html).not.toContain('class="low-stock"');
+     34|       } else {
+     35|         expect(html).toContain(message);
+       |                      ^
+     36|         expect(html).toContain('class="low-stock"');
+     37|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  tests/low-stock.test.ts > book detail low-stock cue > renders the correct cue at stock 3
+AssertionError: expected '\n    <div class="detail">\n      <di…' to contain 'Only 3 copies left'
+
+- Expected
++ Received
+
+- Only 3 copies left
++
++     <div class="detail">
++       <div
++         class="detail-cover"
++         role="img"
++         aria-label="Cover of Quiet Orbit"
++         style="background-color:#2A2456;background-image:url('covers/quiet-orbit.jpg')"
++       ></div>
++       <div class="detail-body">
++         <p class="detail-genre">Sci-Fi</p>
++         <h2>Quiet Orbit</h2>
++         <p class="detail-author">by Samuel Reyes</p>
++         <p class="price detail-price">$15.99</p>
++         <p class="detail-desc">A maintenance crew learns the silence is listening back.</p>
++         <button class="btn ghost" id="back-btn">&larr; Back to catalogue</button>
++       </div>
++     </div>
+
+ ❯ tests/low-stock.test.ts:35:22
+     33|         expect(html).not.toContain('class="low-stock"');
+     34|       } else {
+     35|         expect(html).toContain(message);
+       |                      ^
+     36|         expect(html).toContain('class="low-stock"');
+     37|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  tests/low-stock.test.ts > book detail low-stock cue > keeps dangerous title and author text escaped beside the cue
+AssertionError: expected '\n    <div class="detail">\n      <di…' to contain 'Only 1 copy left'
+
+- Expected
++ Received
+
+- Only 1 copy left
++
++     <div class="detail">
++       <div
++         class="detail-cover"
++         role="img"
++         aria-label="Cover of &lt;script&gt;bad()&lt;/script&gt;"
++         style="background-color:#2A2456;background-image:url('covers/quiet-orbit.jpg')"
++       ></div>
++       <div class="detail-body">
++         <p class="detail-genre">Sci-Fi</p>
++         <h2>&lt;script&gt;bad()&lt;/script&gt;</h2>
++         <p class="detail-author">by &lt;img src=x onerror=&quot;bad()&quot;&gt;</p>
++         <p class="price detail-price">$15.99</p>
++         <p class="detail-desc">A maintenance crew learns the silence is listening back.</p>
++         <button class="btn ghost" id="back-btn">&larr; Back to catalogue</button>
++       </div>
++     </div>
+
+ ❯ tests/low-stock.test.ts:50:20
+     48|         author: '<img src=x onerror="bad()">',
+     49|       });
+     50|       expect(html).toContain("Only 1 copy left");
+       |                    ^
+     51|       expect(html).toContain("&lt;script&gt;");
+     52|       expect(html).toContain("&lt;img");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 4 passed (12)
+   Start at  09:16:28
+   Duration  233ms (transform 27ms, setup 0ms, import 39ms, tests 24ms, environment 0ms)
+
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+
+Exit status: 1
