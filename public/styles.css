@@ -231,3 +231,47 @@ body {
   font-size: 0.85rem;
   text-align: center;
 }
+
+/* ---- cart ---- */
+.card-foot {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.cart-lines {
+  list-style: none;
+  padding: 0;
+}
+.cart-line {
+  border-bottom: 1px solid var(--line);
+  padding: 1rem 0;
+}
+.cart-line h3 {
+  color: var(--navy);
+  margin: 0 0 0.5rem;
+}
+.cart-line label,
+.cart-line .price {
+  display: inline-block;
+  margin: 0 1rem 0.8rem 0;
+}
+.cart-quantity {
+  width: 5rem;
+  padding: 0.4rem;
+}
+.cart-total {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+#cart-status {
+  color: var(--navy);
+}
+#cart-status:empty {
+  display: none;
+}
+#new-cart-btn {
+  margin-bottom: 1rem;
+}

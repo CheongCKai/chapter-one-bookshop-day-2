@@ -1,0 +1,274 @@
+
+> chapter-one-bookshop@1.0.0 test
+> vitest run tests/cart-render.test.ts tests/cart-interactions.test.ts
+
+
+ RUN  v4.1.11 /workspace/chapter-one-bookshop-day-2
+
+ ❯ tests/cart-render.test.ts (4 tests | 4 failed) 15ms
+     × shows an empty cart and a way back to the catalogue 7ms
+     × escapes line data and shows quantities, controls and exact currency totals 1ms
+     × offers Add for available books and disables it at zero stock 3ms
+     × offers Add for available books and disables it at zero stock 2ms
+ ❯ tests/cart-interactions.test.ts (7 tests | 6 failed) 1159ms
+     × creates only one cart for rapid additions and shows the merged confirmed total 171ms
+     × updates then removes a line through the real API and displays the empty state 211ms
+     × shows network failure and retains the last confirmed cart 208ms
+     × shows api failure and retains the last confirmed cart 206ms
+     × offers explicit recovery for a missing cart rather than silently replacing it 206ms
+     × reports catalogue network errors visibly instead of leaving a rejected bootstrap promise 52ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cart-interactions.test.ts > storefront cart interactions > creates only one cart for rapid additions and shows the merged confirmed total
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/cart-interactions.test.ts:78:81
+     76|   it("creates only one cart for rapid additions and shows the merged c…
+     77|     await boot(); add(); add(); await settle(); navigate("cart"); awai…
+     78|     expect(calls.filter((c) => c.path === "/api/carts" && c.method ===…
+       |                                                                                 ^
+     79|     expect(content()).toContain('value="2"'); expect(content()).toCont…
+     80|     expect(nodes["cart-view"]!.hidden).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  tests/cart-interactions.test.ts > storefront cart interactions > updates then removes a line through the real API and displays the empty state
+AssertionError: expected '' to contain 'value="3"'
+
+- Expected
++ Received
+
+- value="3"
+
+ ❯ tests/cart-interactions.test.ts:85:23
+     83|     await boot(); add(); await settle(); navigate("cart"); await settl…
+     84|     nodes["cart-view"]!.click(button(".update-btn")); await settle();
+     85|     expect(content()).toContain('value="3"'); expect(content()).toCont…
+       |                       ^
+     86|     nodes["cart-view"]!.click(button(".remove-btn")); await settle();
+     87|     expect(content()).toContain("Your cart is empty");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  tests/cart-interactions.test.ts > storefront cart interactions > shows network failure and retains the last confirmed cart
+AssertionError: expected '' to contain 'Network offline'
+
+- Expected
++ Received
+
+- Network offline
+
+ ❯ tests/cart-interactions.test.ts:94:22
+     92|     await boot(); add(); await settle(); navigate("cart"); await settl…
+     93|     failNext = failure; add(); await settle();
+     94|     expect(status()).toContain(failure === "network" ? "Network offlin…
+       |                      ^
+     95|     expect(content()).toBe(before); expect(nodes["new-cart-btn"]!.hidd…
+     96|     add(); await settle(); expect(content()).toContain('value="2"');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  tests/cart-interactions.test.ts > storefront cart interactions > shows api failure and retains the last confirmed cart
+AssertionError: expected '' to contain 'Not enough stock'
+
+- Expected
++ Received
+
+- Not enough stock
+
+ ❯ tests/cart-interactions.test.ts:94:22
+     92|     await boot(); add(); await settle(); navigate("cart"); await settl…
+     93|     failNext = failure; add(); await settle();
+     94|     expect(status()).toContain(failure === "network" ? "Network offlin…
+       |                      ^
+     95|     expect(content()).toBe(before); expect(nodes["new-cart-btn"]!.hidd…
+     96|     add(); await settle(); expect(content()).toContain('value="2"');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  tests/cart-interactions.test.ts > storefront cart interactions > offers explicit recovery for a missing cart rather than silently replacing it
+AssertionError: expected '' to contain 'Cart not found'
+
+- Expected
++ Received
+
+- Cart not found
+
+ ❯ tests/cart-interactions.test.ts:101:22
+     99|     await boot(); add(); await settle(); navigate("cart"); await settl…
+    100|     failNext = "missing"; add(); await settle();
+    101|     expect(status()).toContain("Cart not found"); expect(content()).to…
+       |                      ^
+    102|     expect(nodes["new-cart-btn"]!.hidden).toBe(false);
+    103|     nodes["new-cart-btn"]!.click(button("#new-cart-btn")); await settl…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  tests/cart-interactions.test.ts > storefront cart interactions > reports catalogue network errors visibly instead of leaving a rejected bootstrap promise
+AssertionError: expected '' to contain 'Catalogue offline'
+
+- Expected
++ Received
+
+- Catalogue offline
+
+ ❯ tests/cart-interactions.test.ts:117:58
+    115|   });
+    116|   it("reports catalogue network errors visibly instead of leaving a re…
+    117|     failCatalogue = true; await boot(); expect(status()).toContain("Ca…
+       |                                                          ^
+    118|   });
+    119| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  tests/cart-render.test.ts > cart rendering > shows an empty cart and a way back to the catalogue
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ tests/cart-render.test.ts:11:33
+      9| describe("cart rendering", () => {
+     10|   it("shows an empty cart and a way back to the catalogue", () => {
+     11|     expect(storefront.cartHTML).toBeTypeOf("function");
+       |                                 ^
+     12|     const html = storefront.cartHTML({ cartId: "cart", items: [], tota…
+     13|     expect(html).toContain("Your cart is empty");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  tests/cart-render.test.ts > cart rendering > escapes line data and shows quantities, controls and exact currency totals
+AssertionError: expected undefined to be type of 'function'
+
+Expected: "function"
+Received: "undefined"
+
+ ❯ tests/cart-render.test.ts:19:33
+     17|
+     18|   it("escapes line data and shows quantities, controls and exact curre…
+     19|     expect(storefront.cartHTML).toBeTypeOf("function");
+       |                                 ^
+     20|     const html = storefront.cartHTML({ cartId: "cart", items: [{
+     21|       bookId: book.id, title: book.title, unitPrice: 14.99, quantity: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  tests/cart-render.test.ts > cart rendering > offers Add for available books and disables it at zero stock
+AssertionError: expected '\n    <article class="card" data-id="…' to contain 'Add to cart'
+
+- Expected
++ Received
+
+- Add to cart
++
++     <article class="card" data-id="book&quot;&lt;&amp;">
++       <div
++         class="cover"
++         role="img"
++         aria-label="Cover of &lt;script&gt;bad()&lt;/script&gt;"
++         style="background-color:#123456;background-image:url('cover.jpg')"
++       ></div>
++       <h3 class="card-title">&lt;script&gt;bad()&lt;/script&gt;</h3>
++       <p class="card-author">Reader</p>
++       <div class="card-foot">
++         <span class="price">$14.99</span>
++         <button class="btn view-btn" data-id="book&quot;&lt;&amp;">View Book</button>
++       </div>
++     </article>
+
+ ❯ tests/cart-render.test.ts:35:26
+     33|
+     34|   it.each([storefront.bookCardHTML, storefront.bookDetailHTML])("offer…
+     35|     expect(render(book)).toContain("Add to cart");
+       |                          ^
+     36|     expect(render(book)).toMatch(/class="[^"]*add-btn[^"]*"[^>]*data-i…
+     37|     expect(render({ ...book, stock: 0 })).toMatch(/class="[^"]*add-btn…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  tests/cart-render.test.ts > cart rendering > offers Add for available books and disables it at zero stock
+AssertionError: expected '\n    <div class="detail">\n      <di…' to contain 'Add to cart'
+
+- Expected
++ Received
+
+- Add to cart
++
++     <div class="detail">
++       <div
++         class="detail-cover"
++         role="img"
++         aria-label="Cover of &lt;script&gt;bad()&lt;/script&gt;"
++         style="background-color:#123456;background-image:url('cover.jpg')"
++       ></div>
++       <div class="detail-body">
++         <p class="detail-genre">Fiction</p>
++         <h2>&lt;script&gt;bad()&lt;/script&gt;</h2>
++         <p class="detail-author">by Reader</p>
++         <p class="price detail-price">$14.99</p>
++         <p class="detail-desc">A book</p>
++         <button class="btn ghost" id="back-btn">&larr; Back to catalogue</button>
++       </div>
++     </div>
+
+ ❯ tests/cart-render.test.ts:35:26
+     33|
+     34|   it.each([storefront.bookCardHTML, storefront.bookDetailHTML])("offer…
+     35|     expect(render(book)).toContain("Add to cart");
+       |                          ^
+     36|     expect(render(book)).toMatch(/class="[^"]*add-btn[^"]*"[^>]*data-i…
+     37|     expect(render({ ...book, stock: 0 })).toMatch(/class="[^"]*add-btn…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: Catalogue offline
+ ❯ tests/cart-interactions.test.ts:60:55
+     58|   vi.stubGlobal("fetch", async (path: string, options: RequestInit = {…
+     59|     const method = options.method ?? "GET"; calls.push({ path, method …
+     60|     if (path === "/api/books" && failCatalogue) throw new Error("Catal…
+       |                                                       ^
+     61|     if (path.includes("/items") && method !== "GET" && failNext) {
+     62|       const failure = failNext; failNext = undefined;
+ ❯ loadCatalogue public/app.js:67:21
+ ❯ public/app.js:118:3
+ ❯ VitestModuleEvaluator._runInlinedModule node_modules/vitest/dist/module-evaluator.js:206:120
+ ❯ node_modules/vitest/dist/module-evaluator.js:107:62
+ ❯ Traces.$ node_modules/vitest/dist/chunks/traces.DT5aQ62U.js:142:27
+ ❯ VitestModuleEvaluator.runInlinedModule node_modules/vitest/dist/module-evaluator.js:107:21
+ ❯ VitestModuleRunner.directRequest node_modules/vite/dist/node/module-runner.js:1272:80
+ ❯ VitestModuleRunner.cachedRequest node_modules/vite/dist/node/module-runner.js:1179:73
+
+This error originated in "tests/cart-interactions.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "reports catalogue network errors visibly instead of leaving a rejected bootstrap promise". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  2 failed (2)
+      Tests  10 failed | 1 passed (11)
+     Errors  1 error
+   Start at  09:07:44
+   Duration  1.51s (transform 142ms, setup 0ms, import 272ms, tests 1.17s, environment 0ms)
+
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+
+Exit status: 1

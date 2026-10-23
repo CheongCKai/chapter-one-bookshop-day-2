@@ -1,0 +1,63 @@
+
+Command: npm test
+
+> chapter-one-bookshop@1.0.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /workspace/chapter-one-bookshop-day-2
+
+
+ Test Files  9 passed (9)
+      Tests  72 passed (72)
+   Start at  09:10:05
+   Duration  1.86s (transform 356ms, setup 0ms, import 1.41s, tests 2.06s, environment 1ms)
+
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+
+Exit status: 0
+
+Command: npm run typecheck
+
+> chapter-one-bookshop@1.0.0 typecheck
+> tsc --noEmit
+
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+
+Exit status: 0
+
+Command: npm run lint
+
+> chapter-one-bookshop@1.0.0 lint
+> eslint .
+
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+
+Exit status: 0
+
+Command: npm run format:check
+
+> chapter-one-bookshop@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+
+Exit status: 0
