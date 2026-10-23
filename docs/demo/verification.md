@@ -1,6 +1,6 @@
 # Day 2 demo verification
 
-Deck: Day-2-AI-Augmented_SDLC-v5.pptx (68 slides).
+Deck: Day-2-AI-Augmented_SDLC-v5.pptx (68 slides and embedded speaker notes).
 Baseline: d919003d66f37c03ba4f0b4b803def160e655a75 on main.
 Verified on 2026-10-23 with Node 20.20.2 and npm ci.
 
@@ -13,7 +13,7 @@ Verified on 2026-10-23 with Node 20.20.2 and npm ci.
 | 13–15        | F1 spec / Gate 1                         | Main has no F1 spec. Duplicate merge versus rejection is an actual product decision, not settled by FB-10.                                                                                                                                                                   |
 | 17–20        | Four-phase plan / Gate 2                 | Main has no plan. Existing remote dev is an older two-phase cart-and-checkout implementation; do not use it as a matching four-phase fallback. Artifact A4 is absent.                                                                                                        |
 | 23–26, 28–31 | Verification, TDD and independent review | Skills and agent instructions exist. Starter has 12 passing tests. There is no F1 run, phase history or RED evidence on main. A6 is absent; any weakened-test exercise must be labelled synthetic.                                                                           |
-| 27           | Husky / lint-staged                      | Neither package nor hook is installed. Slide is an optional concept example and conflicts with the no-new-dependencies rule if treated as an instruction to install. No dependencies added.                                                                                  |
+| 27           | Husky / lint-staged                      | Neither package nor hook is installed. Slide is hidden and its notes explicitly identify it as an optional concept example and conflicts with the no-new-dependencies rule if treated as an instruction to install. No dependencies added.                                   |
 | 35–44        | Low-stock issue to PR                    | Issue form, approval workflow, ready-made ticket and manual assignment instructions exist. Label validates and records approval; it does not assign Copilot. Form introduction and workflow error/comment wording still imply starting the agent; explain manual assignment. |
 | 40, 43       | Cloud platform capabilities              | Cannot establish platform behaviour from repository files. GitHub API access is forbidden here; cloud handoffs, current time limits, security defaults and settings need a real platform dry run.                                                                            |
 | 60           | Gate 3                                   | No live low-stock PR or CI result verified. A branch cannot replace an issue approval, PR review, CI run or merge decision.                                                                                                                                                  |
@@ -43,3 +43,17 @@ Refresh npm ci when switching between branches with different lockfiles.
 Rehearsal fixture approvals are not real class approvals. During class, collect
 and record the class decision on the actual artifact version. A backup branch
 provides files; it cannot recreate agent conversation history or platform evidence.
+
+## Additional speaker-note checks
+
+- Notes name backup/01-intent-approved, backup/02-spec-approved,
+  backup/03-plan-approved and backup/04-loop-done. Matching aliases will point
+  to the corresponding rehearsal commits.
+- Slide 30 notes name GPT-6.1 Sol as reviewer; reviewer.agent.md pins GPT-5.5.
+  Correct the narration or update the role in a separately reviewed workflow change.
+- Notes explicitly acknowledge baseline audit failures block READY. This rehearsal
+  preserves that teaching point: completed implementation is distinct from merge readiness.
+- A6's intended exercise changes toBe(400) into not.toBe(200). Keep it in a
+  fenced, labelled exercise, never weaken the actual executable test.
+- A2/A3/A4 are fallback intent/spec/plan artifacts; branch files can supply them.
+  A8 means a pre-run PR, which cannot be replaced with a fictitious PR URL.
