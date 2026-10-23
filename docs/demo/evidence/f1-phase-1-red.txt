@@ -1,0 +1,84 @@
+
+> chapter-one-bookshop@1.0.0 test
+> vitest run tests/carts.test.ts
+
+
+ RUN  v4.1.11 /workspace/chapter-one-bookshop-day-2
+
+ ❯ tests/carts.test.ts (4 tests | 3 failed) 42ms
+     × creates an empty cart and retrieves it by its nonempty ID 22ms
+     × creates separate carts with distinct IDs 7ms
+     × clears carts on reset without changing the catalogue 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/carts.test.ts > create and get a cart > creates an empty cart and retrieves it by its nonempty ID
+AssertionError: expected 404 to be 201 // Object.is equality
+
+- Expected
++ Received
+
+- 201
++ 404
+
+ ❯ tests/carts.test.ts:15:28
+     13|   it("creates an empty cart and retrieves it by its nonempty ID", asyn…
+     14|     const created = await request(app).post("/api/carts");
+     15|     expect(created.status).toBe(201);
+       |                            ^
+     16|     expect(created.body).toEqual({ cartId: expect.any(String), items: …
+     17|     expect(created.body.cartId.length).toBeGreaterThan(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/carts.test.ts > create and get a cart > creates separate carts with distinct IDs
+AssertionError: expected 404 to be 201 // Object.is equality
+
+- Expected
++ Received
+
+- 201
++ 404
+
+ ❯ tests/carts.test.ts:27:26
+     25|     const first = await request(app).post("/api/carts");
+     26|     const second = await request(app).post("/api/carts");
+     27|     expect(first.status).toBe(201);
+       |                          ^
+     28|     expect(second.status).toBe(201);
+     29|     expect(first.body.cartId).not.toBe(second.body.cartId);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/carts.test.ts > create and get a cart > clears carts on reset without changing the catalogue
+AssertionError: expected 404 to be 201 // Object.is equality
+
+- Expected
++ Received
+
+- 201
++ 404
+
+ ❯ tests/carts.test.ts:45:28
+     43|     const before = await request(app).get("/api/books");
+     44|     const created = await request(app).post("/api/carts");
+     45|     expect(created.status).toBe(201);
+       |                            ^
+     46|     store.reset();
+     47|     const loaded = await request(app).get(`/api/carts/${created.body.c…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 1 passed (4)
+   Start at  08:56:05
+   Duration  430ms (transform 73ms, setup 0ms, import 215ms, tests 42ms, environment 0ms)
+
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+
+Exit status: 1

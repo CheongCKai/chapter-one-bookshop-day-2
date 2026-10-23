@@ -19,3 +19,18 @@ export interface Book {
 export interface ApiError {
   error: string;
 }
+
+/** A catalogue-derived line in a cart. */
+export interface CartItem {
+  bookId: string;
+  title: string;
+  unitPrice: number;
+  quantity: number;
+  lineTotal: number;
+}
+
+export interface Cart {
+  cartId: string;
+  items: CartItem[];
+  total: number;
+}

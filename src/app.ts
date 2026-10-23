@@ -1,6 +1,7 @@
 import express from "express";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { cartsRouter } from "./routes/carts.js";
 import { booksRouter } from "./routes/books.js";
 import { healthRouter } from "./routes/health.js";
 
@@ -14,6 +15,7 @@ export function createApp() {
 
   // API routes.
   app.use(booksRouter);
+  app.use(cartsRouter);
   app.use(healthRouter);
 
   // Static storefront (public/index.html, app.js, styles.css).

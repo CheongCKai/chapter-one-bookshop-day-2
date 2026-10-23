@@ -1,4 +1,5 @@
-import type { Book } from "./types.js";
+import { randomUUID } from "node:crypto";
+import type { Book, Cart } from "./types.js";
 import { SEED_BOOKS } from "./data/seed.js";
 
 /**
@@ -8,6 +9,7 @@ import { SEED_BOOKS } from "./data/seed.js";
  */
 class Store {
   private books: Book[] = [];
+  private carts = new Map<string, Cart>();
 
   constructor() {
     this.reset();
@@ -17,6 +19,22 @@ class Store {
   reset(): void {
     // Deep copy so callers can never mutate the seed by reference.
     this.books = SEED_BOOKS.map((b) => ({ ...b }));
+    this.carts.clear();
+  }
+
+  createCart(): Cart {
+    const cart: Cart = { cartId: randomUUID(), items: [], total: 0 };
+    this.carts.set(cart.cartId, cart);
+    return this.copyCart(cart);
+  }
+
+  getCart(cartId: string): Cart | undefined {
+    const cart = this.carts.get(cartId);
+    return cart ? this.copyCart(cart) : undefined;
+  }
+
+  private copyCart(cart: Cart): Cart {
+    return { ...cart, items: cart.items.map((item) => ({ ...item })) };
   }
 
   listBooks(): Book[] {
