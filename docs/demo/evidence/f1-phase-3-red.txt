@@ -1,0 +1,164 @@
+
+> chapter-one-bookshop@1.0.0 test
+> vitest run tests/cart-mutations.test.ts
+
+
+ RUN  v4.1.11 /workspace/chapter-one-bookshop-day-2
+
+ ❯ tests/cart-mutations.test.ts (22 tests | 16 failed) 300ms
+     × replaces a quantity and recalculates line and cart totals in cents 47ms
+     × accepts exactly available stock without deducting stock or changing another cart 13ms
+     × rejects invalid or over-stock replacement 0 without mutation 12ms
+     × rejects invalid or over-stock replacement -1 without mutation 12ms
+     × rejects invalid or over-stock replacement 1.5 without mutation 10ms
+     × rejects invalid or over-stock replacement 2 without mutation 23ms
+     × rejects invalid or over-stock replacement null without mutation 16ms
+     × rejects invalid or over-stock replacement true without mutation 8ms
+     × rejects invalid or over-stock replacement 9007199254740992 without mutation 11ms
+     × rejects invalid or over-stock replacement undefined without mutation 9ms
+     × rejects invalid or over-stock replacement 13 without mutation 9ms
+     × rejects invalid replacement body [] 13ms
+     × rejects invalid replacement body {} 7ms
+     × rejects invalid replacement body { quantity: {} } 7ms
+     × returns 204 with no body and preserves other lines, carts and catalogue 12ms
+     × removes the final line to restore an empty zero cart 5ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > replaces a quantity and recalculates line and cart totals in cents
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/cart-mutations.test.ts:29:28
+     27|       .send({ bookId: "paper-mountains", quantity: 1 });
+     28|     const updated = await update({ quantity: 3, unitPrice: 0, title: "…
+     29|     expect(updated.status).toBe(200);
+       |                            ^
+     30|     expect(updated.body.items[0]).toEqual({
+     31|       bookId,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯
+
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > accepts exactly available stock without deducting stock or changing another cart
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/cart-mutations.test.ts:46:28
+     44|     const other = (await request(app).post("/api/carts")).body;
+     45|     const updated = await update({ quantity: 12 });
+     46|     expect(updated.status).toBe(200);
+       |                            ^
+     47|     expect(updated.body.items[0].quantity).toBe(12);
+     48|     expect(updated.body.total).toBe(179.88);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯
+
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid or over-stock replacement 0 without mutation
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid or over-stock replacement -1 without mutation
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid or over-stock replacement 1.5 without mutation
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid or over-stock replacement 2 without mutation
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid or over-stock replacement null without mutation
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid or over-stock replacement true without mutation
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid or over-stock replacement 9007199254740992 without mutation
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid or over-stock replacement undefined without mutation
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid or over-stock replacement 13 without mutation
+AssertionError: expected 404 to be 400 // Object.is equality
+
+- Expected
++ Received
+
+- 400
++ 404
+
+ ❯ tests/cart-mutations.test.ts:59:31
+     57|       const catalogue = (await request(app).get("/api/books")).body;
+     58|       const response = await update({ quantity });
+     59|       expect(response.status).toBe(400);
+       |                               ^
+     60|       expect(response.type).toBe("application/json");
+     61|       expect(response.body).toEqual({ error: expect.any(String) });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯
+
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid replacement body []
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid replacement body {}
+ FAIL  tests/cart-mutations.test.ts > cart quantity changes > rejects invalid replacement body { quantity: {} }
+AssertionError: expected 404 to be 400 // Object.is equality
+
+- Expected
++ Received
+
+- 400
++ 404
+
+ ❯ tests/cart-mutations.test.ts:70:29
+     68|     const before = (await load()).body;
+     69|     const response = await update(body);
+     70|     expect(response.status).toBe(400);
+       |                             ^
+     71|     expect(response.body).toEqual({ error: expect.any(String) });
+     72|     expect((await load()).body).toEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯
+
+ FAIL  tests/cart-mutations.test.ts > cart line removal > returns 204 with no body and preserves other lines, carts and catalogue
+AssertionError: expected 404 to be 204 // Object.is equality
+
+- Expected
++ Received
+
+- 204
++ 404
+
+ ❯ tests/cart-mutations.test.ts:114:29
+    112|       .send({ bookId: "paper-mountains", quantity: 1 });
+    113|     const response = await remove();
+    114|     expect(response.status).toBe(204);
+       |                             ^
+    115|     expect(response.text).toBe("");
+    116|     expect((await load()).body).toEqual({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯
+
+ FAIL  tests/cart-mutations.test.ts > cart line removal > removes the final line to restore an empty zero cart
+AssertionError: expected 404 to be 204 // Object.is equality
+
+- Expected
++ Received
+
+- 204
++ 404
+
+ ❯ tests/cart-mutations.test.ts:135:29
+    133|   it("removes the final line to restore an empty zero cart", async () …
+    134|     const response = await remove();
+    135|     expect(response.status).toBe(204);
+       |                             ^
+    136|     expect(response.text).toBe("");
+    137|     expect((await load()).body).toEqual({ cartId, items: [], total: 0 …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  16 failed | 6 passed (22)
+   Start at  09:04:07
+   Duration  795ms (transform 90ms, setup 0ms, import 209ms, tests 300ms, environment 0ms)
+
+npm notice
+npm notice New minor version of npm available! 11.9.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+
+Exit status: 1

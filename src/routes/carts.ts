@@ -36,3 +36,16 @@ cartsRouter.post("/api/carts/:cartId/items", (req, res) => {
   }
   res.json(store.addCartItem(req.params.cartId, body.bookId, body.quantity));
 });
+
+cartsRouter.patch("/api/carts/:cartId/items/:bookId", (req, res) => {
+  const body: unknown = req.body;
+  if (!validBody(body) || !validQuantity(body.quantity)) {
+    throw new CartError(400, "A positive integer quantity is required");
+  }
+  res.json(store.updateCartItem(req.params.cartId, req.params.bookId, body.quantity));
+});
+
+cartsRouter.delete("/api/carts/:cartId/items/:bookId", (req, res) => {
+  store.removeCartItem(req.params.cartId, req.params.bookId);
+  res.status(204).end();
+});

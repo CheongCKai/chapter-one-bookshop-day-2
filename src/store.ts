@@ -69,9 +69,40 @@ class Store {
         lineTotal: (Math.round(book.price * 100) * quantity) / 100,
       });
     }
+    this.updateCartTotal(cart);
+    return this.copyCart(cart);
+  }
+
+  updateCartItem(cartId: string, bookId: string, quantity: number): Cart {
+    const { cart, book, item } = this.requireCartItem(cartId, bookId);
+    if (!Number.isSafeInteger(quantity) || quantity <= 0 || quantity > book.stock) {
+      throw new CartError(400, "Quantity must be a positive integer within available stock");
+    }
+    item.quantity = quantity;
+    item.lineTotal = (Math.round(item.unitPrice * 100) * quantity) / 100;
+    this.updateCartTotal(cart);
+    return this.copyCart(cart);
+  }
+
+  removeCartItem(cartId: string, bookId: string): void {
+    const { cart, item } = this.requireCartItem(cartId, bookId);
+    cart.items.splice(cart.items.indexOf(item), 1);
+    this.updateCartTotal(cart);
+  }
+
+  private requireCartItem(cartId: string, bookId: string) {
+    const cart = this.carts.get(cartId);
+    if (!cart) throw new CartError(404, "Cart not found");
+    const book = this.getBook(bookId);
+    if (!book) throw new CartError(404, "Book not found");
+    const item = cart.items.find((line) => line.bookId === bookId);
+    if (!item) throw new CartError(404, "Cart item not found");
+    return { cart, book, item };
+  }
+
+  private updateCartTotal(cart: Cart): void {
     cart.total =
       cart.items.reduce((cents, item) => cents + Math.round(item.lineTotal * 100), 0) / 100;
-    return this.copyCart(cart);
   }
 
   private copyCart(cart: Cart): Cart {
