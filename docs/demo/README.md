@@ -88,3 +88,29 @@ Reloading the cart demo also starts a fresh cart; do not promise persistence.
   evidence or resolve the dependency advisory in a separate authorized task.
 
 See `verification.md` for the slide-by-slide findings and current limitations.
+
+## Verified outcomes
+
+Starter: 12 passing tests. Cart phase checkpoints: 16, 39, 61 and 72 passing
+tests respectively, with typecheck and lint passing and independent phase
+reviews. Completed cart also passes formatting and the real-browser checks.
+Independent low-stock checkpoint: 24 tests, typecheck, lint and formatting pass,
+plus independent review and real-browser checks. Both final reviews are
+NOT READY because the unchanged required audit fails (2 moderate, 3 high).
+
+F1 evidence is on backup/04-loop-done under docs/superpowers/reviews and
+docs/demo/evidence. Low-stock evidence is on backup/06-low-stock-done at
+docs/superpowers/reviews/low-stock-review.md and
+docs/demo/low-stock-browser-verification.md.
+
+Checkpoint contents were inspected directly from Git objects: starter has no
+intent; intent has no F1 spec yet; spec has no plan yet; plan has no cart code;
+phase 1 has create/get only; phase 2 adds items but no PATCH; phase 3 adds
+PATCH/DELETE but no cart UI; completed cart has cartHTML and all review records;
+low-stock-ready has unchanged starter application files; low-stock-done has
+cues but no cart routes or UI. These boundaries make each branch the starting
+state for the next demo. Source and dependency files on main are unchanged.
+
+The prepared cloud workspace is returned to its original starter checkout
+after publication of these branches. Begin at demo/00-starter, and explicitly
+switch checkpoints when needed; no implementation was merged into main.
