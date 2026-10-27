@@ -1,0 +1,96 @@
+# Validates a ready-for-agent issue when a maintainer applies the label.
+# After this workflow succeeds, assign Copilot cloud agent manually in the
+# GitHub UI (assignees panel) to start the run.
+# Uses only the default GITHUB_TOKEN — no repository secrets needed.
+name: Assign issue to agent
+
+on:
+  issues:
+    types: [labeled, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: assign-agent-${{ github.event.issue.number }}
+
+jobs:
+  revoke:
+    if: github.event.action == 'edited' && contains(github.event.issue.labels.*.name, 'ready-for-agent')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      ISSUE: ${{ github.event.issue.number }}
+    steps:
+      - name: Withdraw the approval label and say why
+        run: |
+          gh issue edit "$ISSUE" --repo "$REPO" --remove-label ready-for-agent
+          gh issue comment "$ISSUE" --repo "$REPO" --body "This issue changed after it was approved, so the \`ready-for-agent\` label was removed. A maintainer must read the current text and apply the label again to start the agent."
+
+  assign:
+    if: github.event.action == 'labeled' && github.event.label.name == 'ready-for-agent'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      ISSUE: ${{ github.event.issue.number }}
+      SENDER: ${{ github.event.sender.login }}
+    steps:
+      - name: Check the label came from someone with write access
+        run: |
+          perm=$(gh api "repos/$REPO/collaborators/$SENDER/permission" --jq .permission)
+          echo "$SENDER has $perm access"
+          case "$perm" in
+            admin|maintain|write) ;;
+            *) echo "::error::Only users with write access can start the agent."; exit 1 ;;
+          esac
+
+      - name: Read the issue as it stands now
+        run: |
+          gh api "repos/$REPO/issues/$ISSUE" > issue.json
+          jq -r '.body // ""' issue.json > issue-body.md
+          if [ "$(jq -r '.state' issue.json)" != "open" ]; then
+            echo "::error::The issue is not open."; exit 1
+          fi
+          echo "BODY_SHA=$(sha256sum issue-body.md | cut -d' ' -f1)" >> "$GITHUB_ENV"
+
+      - name: Check every required section is present and complete
+        run: |
+          missing=0
+          while IFS= read -r heading; do
+            grep -qF "$heading" issue-body.md || { echo "::error::Missing section: $heading"; missing=1; }
+          done <<'HEADINGS'
+          ### Goal and desired behaviour
+          ### Acceptance criteria
+          ### Scope and non-goals
+          ### Technical context
+          ### Implementation plan
+          ### Checks
+          HEADINGS
+          if grep -qF "_No response_" issue-body.md; then
+            echo "::error::A required section is empty."; missing=1
+          fi
+          if grep -qE '^[[:space:]]*- \[ \]' issue-body.md; then
+            echo "::error::Every Readiness box must be ticked before approval."; missing=1
+          fi
+          ticked=$(grep -cE '^[[:space:]]*- \[[xX]\]' issue-body.md || true)
+          if [ "$ticked" -lt 3 ]; then
+            echo "::error::Expected the 3 Readiness boxes to be ticked; found $ticked."; missing=1
+          fi
+          [ "$missing" -eq 0 ] || exit 1
+
+      - name: Record the approval and prompt for manual assignment
+        run: |
+          BODY="Approved by @$SENDER with the \`ready-for-agent\` label (approved body \`sha256:$BODY_SHA\`).
+
+          To start the agent:
+          1. Open the **Assignees** panel on this issue.
+          2. Assign **Copilot** and select **orchestrator** from the agent dropdown.
+          3. Paste this into the Optional prompt field:
+
+          > Use \`shipping-a-feature\` in approved-issue mode for issue #$ISSUE. The \`ready-for-agent\` label applied by @$SENDER is the approval. Execute only the approved plan, open a pull request when the review evidence is ready, and do not merge.
+
+          Editing this issue removes the label and needs a fresh approval."
+          gh issue comment "$ISSUE" --repo "$REPO" --body "$BODY"

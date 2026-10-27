@@ -180,7 +180,8 @@ function renderCartContent(cart) {
 async function renderCart() {
   const content = document.getElementById("cart-content");
   if (!cartId) {
-    content.innerHTML = '<p class="cart-empty">Your cart is empty. Browse the catalogue to add books.</p>';
+    content.innerHTML =
+      '<p class="cart-empty">Your cart is empty. Browse the catalogue to add books.</p>';
     return;
   }
   const res = await fetch(`/api/carts/${cartId}`);

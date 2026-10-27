@@ -66,9 +66,7 @@ describe("PUT /api/carts/:cartId/items/:bookId", () => {
 
   it("updates quantity when the same book is added again", async () => {
     const cartId = await createCart();
-    await request(app)
-      .put(`/api/carts/${cartId}/items/the-lantern-sea`)
-      .send({ quantity: 1 });
+    await request(app).put(`/api/carts/${cartId}/items/the-lantern-sea`).send({ quantity: 1 });
     const res = await request(app)
       .put(`/api/carts/${cartId}/items/the-lantern-sea`)
       .send({ quantity: 3 });
@@ -133,12 +131,8 @@ describe("PUT /api/carts/:cartId/items/:bookId", () => {
 describe("DELETE /api/carts/:cartId/items/:bookId", () => {
   it("removes a line item from the cart", async () => {
     const cartId = await createCart();
-    await request(app)
-      .put(`/api/carts/${cartId}/items/the-lantern-sea`)
-      .send({ quantity: 1 });
-    await request(app)
-      .put(`/api/carts/${cartId}/items/paper-mountains`)
-      .send({ quantity: 1 });
+    await request(app).put(`/api/carts/${cartId}/items/the-lantern-sea`).send({ quantity: 1 });
+    await request(app).put(`/api/carts/${cartId}/items/paper-mountains`).send({ quantity: 1 });
     const res = await request(app).delete(`/api/carts/${cartId}/items/the-lantern-sea`);
     expect(res.status).toBe(200);
     expect(res.body.items).toHaveLength(1);
@@ -156,9 +150,7 @@ describe("DELETE /api/carts/:cartId/items/:bookId", () => {
 describe("POST /api/carts/:cartId/checkout", () => {
   it("returns an order with correct total and destroys the cart", async () => {
     const cartId = await createCart();
-    await request(app)
-      .put(`/api/carts/${cartId}/items/the-lantern-sea`)
-      .send({ quantity: 2 });
+    await request(app).put(`/api/carts/${cartId}/items/the-lantern-sea`).send({ quantity: 2 });
     const res = await request(app).post(`/api/carts/${cartId}/checkout`);
     expect(res.status).toBe(200);
     expect(typeof res.body.id).toBe("string");
@@ -172,9 +164,7 @@ describe("POST /api/carts/:cartId/checkout", () => {
 
   it("decrements stock after checkout", async () => {
     const cartId = await createCart();
-    await request(app)
-      .put(`/api/carts/${cartId}/items/the-lantern-sea`)
-      .send({ quantity: 3 });
+    await request(app).put(`/api/carts/${cartId}/items/the-lantern-sea`).send({ quantity: 3 });
     await request(app).post(`/api/carts/${cartId}/checkout`);
     const book = await request(app).get("/api/books/the-lantern-sea");
     expect(book.body.stock).toBe(12 - 3);
@@ -189,9 +179,7 @@ describe("POST /api/carts/:cartId/checkout", () => {
 
   it("responds 409 when quantity exceeds stock", async () => {
     const cartId = await createCart();
-    await request(app)
-      .put(`/api/carts/${cartId}/items/the-lantern-sea`)
-      .send({ quantity: 999 });
+    await request(app).put(`/api/carts/${cartId}/items/the-lantern-sea`).send({ quantity: 999 });
     const res = await request(app).post(`/api/carts/${cartId}/checkout`);
     expect(res.status).toBe(409);
     expect(res.body.error).toMatch(/Insufficient stock/);

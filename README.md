@@ -4,26 +4,17 @@ A deliberately small online bookshop, used as the working codebase for the
 **AI-Augmented SDLC** course. It is real enough to feel like a product and small
 enough to hold in your head.
 
-This starter intentionally contains a plain product surface: the storefront can
-**browse the catalogue and open a book**. It cannot yet add items to a cart,
-edit a cart, or check out. Cart + checkout is the feature to build.
+The `dev` demo can browse the catalogue, open a book, manage a cart, and check
+out. The `main` starter contains catalogue browsing and book details only.
+Select the issue's specified starting branch when assigning cloud-agent work.
 
-The repo includes the Superpowers-style skill chain used in class:
+The orchestrator follows `shipping-a-feature` for design, planning,
+implementation, independent review, and PR handoff. A maintainer's
+`ready-for-agent` label records approval of a complete issue. Actions validates
+the issue; the maintainer then assigns Copilot manually.
 
-- `brainstorming` refines a rough feature idea through questions and saves a
-  design document.
-- `using-git-worktrees` creates an isolated branch workspace after design
-  approval.
-- `writing-plans` breaks the approved design into bite-sized implementation
-  tasks.
-- `subagent-driven-development` or `executing-plans` implements the plan with
-  task-level checkpoints.
-- `test-driven-development` enforces red-green-refactor during implementation.
-- `requesting-code-review` reviews work between tasks.
-- `finishing-a-development-branch` verifies the branch and presents merge / PR /
-  keep / discard options.
-
-The AFK-agent demo is documented in `docs/afk-pipeline.md`.
+See [Team delivery on the cloud](docs/cloud-delivery.md) for the assignment
+steps and [the feature workflow](docs/ai-native-flow.md) for the role handoffs.
 
 ## Run it
 
@@ -37,7 +28,7 @@ npm run dev        # http://localhost:3000
 In another terminal:
 
 ```bash
-npm test           # 12 tests, all green
+npm test           # run the current branch's suite
 curl localhost:3000/api/health
 curl localhost:3000/api/books
 ```
@@ -53,10 +44,10 @@ public/         the storefront — plain HTML + vanilla JS + one stylesheet
 tests/          Vitest suite (Supertest for the API, pure helpers for rendering)
 docs/           domain glossary and architecture decision records (ADRs)
 .github/        Copilot steering: AGENTS.md conventions, instruction files,
-                prompt files, skills, and demo agent roles
+                skills, workflow configuration, and demo agent roles
 ```
 
-## The API (starter)
+## Catalogue API
 
 | Method | Path             | Purpose                           |
 | ------ | ---------------- | --------------------------------- |
@@ -72,11 +63,11 @@ docs/           domain glossary and architecture decision records (ADRs)
 ## Working with AI agents here
 
 Read **`AGENTS.md`** first — it holds the conventions and guardrails. Path-specific
-rules live in `.github/instructions/`, reusable prompts in `.github/prompts/`,
-custom agents in `.github/agents/`, and Basic Workflow skills in
+rules live in `.github/instructions/`,
+custom agents in `.github/agents/`, and skills in
 `.github/skills/`.
 
-For the cart + checkout exercise, start by asking the agent to brainstorm the
-feature. After design approval, use the worktree, planning, implementation,
-TDD, review, and branch-finishing skills as the feature moves through the
-workflow.
+For approved issue work, use `shipping-a-feature` in approved-issue mode on a
+feature branch from the issue's specified base. For new features, follow the
+requirements and approval gates in `AGENTS.md`. Open a PR for Copilot review
+followed by human review; leave merging to the human.

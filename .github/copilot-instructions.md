@@ -1,16 +1,13 @@
 # Copilot instructions
 
-The authoritative, repo-wide instructions for this project live in **`AGENTS.md`**
-at the repository root. Read that file first.
+Read the repository's `AGENTS.md` for project constraints, conventions,
+validation commands, and skill routing. Apply relevant path-specific
+instructions under `.github/instructions/`.
 
-Key points, repeated here because some Copilot surfaces read this file:
+For requirements work use `capturing-intent`; for an approved feature's
+delivery use `shipping-a-feature`. Read the selected skill by path.
+Resolve artifact locations, checks, and branch policy from this project.
+Do not copy another project's architecture or commands from workflow examples.
 
-- No new dependencies, no CSS frameworks, no build step.
-- All styling goes in `public/styles.css`.
-- API errors are JSON `{ "error": "..." }` with an appropriate status code.
-- Keep the test suite green; never weaken a test to make it pass.
-- Cart + checkout work should go through the Superpowers chain:
-  `brainstorming` -> `writing-plans` -> implementation with
-  `verification-before-completion`.
-
-Path-specific rules are in `.github/instructions/*.instructions.md`.
+Keep changes within the approved scope and preserve unrelated work.
+Do not claim successful verification without current evidence.
