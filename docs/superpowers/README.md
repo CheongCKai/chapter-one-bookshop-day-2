@@ -1,10 +1,15 @@
-# Superpowers Working Docs
+# Workflow artifacts
 
-Use working documents so each context window has something durable to pick up.
+These directories are the default artifact locations when the project does not
+specify alternatives. Preserve the project's existing conventions when present.
 
-- `specs/` holds design docs created by the `brainstorming` skill.
-- `plans/` holds phased implementation plans created by the `writing-plans`
-  skill.
+- `../intent.md` — approved requirements with stable feature identifiers.
+- `specs/` — feature design, source references, acceptance criteria, and
+  approval evidence for the current version.
+- `plans/` — approved phased plans with completion and phase-review evidence.
+- `reviews/` — final reports identifying the reviewed revisions and ending in
+  `VERDICT: READY` or `VERDICT: NOT READY`.
 
-Cart + checkout is intentionally not implemented in this starter. Create the
-design doc first, then create the plan, then implement one phase at a time.
+Artifact existence is not completion. Approval applies to a particular version,
+and review evidence applies to a particular change. Revalidate affected work
+when requirements or implementation change.

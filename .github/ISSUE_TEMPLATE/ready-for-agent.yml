@@ -1,0 +1,84 @@
+name: Ready for agent
+description: A small, well-defined issue that Copilot cloud agent can deliver as one pull request.
+title: "[Agent] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Creating this issue does **not** start the agent.
+        A maintainer reviews the rendered issue, then adds the `ready-for-agent` label to start validation.
+        After validation succeeds, the maintainer assigns Copilot manually to start the agent session.
+        Keep it to one behaviour change with objective criteria and no open product decisions.
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal and desired behaviour
+      description: Who is affected, what should change, and the expected result. Link the feature or feedback it traces to.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: Objective checks a reviewer can verify, including a failure case and behaviour that must not change.
+      placeholder: |
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and non-goals
+      description: What is in scope, and tempting adjacent work the agent must not do.
+      placeholder: |
+        In scope:
+        - ...
+        Out of scope:
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-context
+    attributes:
+      label: Technical context
+      description: Relevant files, instructions, and constraints.
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-plan
+    attributes:
+      label: Implementation plan
+      description: The approved phase or phases, affected paths, and criteria per phase. "Let the agent decide" is not a plan.
+    validations:
+      required: true
+
+  - type: textarea
+    id: checks
+    attributes:
+      label: Checks
+      description: Commands that must pass before the pull request.
+      value: |
+        npm run format:check
+        npm run lint
+        npm run typecheck
+        npm test
+        npm audit --audit-level=high
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: readiness
+    attributes:
+      label: Readiness
+      options:
+        - label: One behaviour change, with objective acceptance criteria.
+          required: true
+        - label: Scope, non-goals, and plan are explicit — no open product decisions.
+          required: true
+        - label: No secrets, external accounts, payment providers, or production data are needed.
+          required: true

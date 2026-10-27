@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { escapeHtml, formatPrice, bookCardHTML, cartItemHTML, orderConfirmationHTML } from "../public/app.js";
+import {
+  escapeHtml,
+  formatPrice,
+  bookCardHTML,
+  cartItemHTML,
+  orderConfirmationHTML,
+} from "../public/app.js";
 
 const sample = {
   id: "quiet-orbit",
