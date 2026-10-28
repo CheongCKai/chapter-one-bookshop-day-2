@@ -16,6 +16,14 @@ export function formatPrice(price) {
   return `$${Number(price).toFixed(2)}`;
 }
 
+/** Shared low-stock cue for catalogue cards and detail views. */
+export function lowStockCueHTML(stock) {
+  const count = Number(stock);
+  if (!Number.isInteger(count) || count < 1 || count > 3) return "";
+  const noun = count === 1 ? "copy" : "copies";
+  return `<p class="low-stock">Only ${escapeHtml(count)} ${noun} left</p>`;
+}
+
 /** One book card for the catalogue grid. Returns an HTML string. */
 export function bookCardHTML(book) {
   const title = escapeHtml(book.title);
@@ -31,6 +39,7 @@ export function bookCardHTML(book) {
       ></div>
       <h3 class="card-title">${title}</h3>
       <p class="card-author">${author}</p>
+      ${lowStockCueHTML(book.stock)}
       <div class="card-foot">
         <span class="price">${formatPrice(book.price)}</span>
         <button class="btn view-btn" data-id="${escapeHtml(book.id)}">View Book</button>
@@ -55,6 +64,7 @@ export function bookDetailHTML(book) {
         <h2>${title}</h2>
         <p class="detail-author">by ${escapeHtml(book.author)}</p>
         <p class="price detail-price">${formatPrice(book.price)}</p>
+        ${lowStockCueHTML(book.stock)}
         <p class="detail-desc">${escapeHtml(book.description)}</p>
         <button class="btn ghost" id="back-btn">&larr; Back to catalogue</button>
       </div>

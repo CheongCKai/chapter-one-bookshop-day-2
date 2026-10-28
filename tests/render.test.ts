@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { escapeHtml, formatPrice, bookCardHTML } from "../public/app.js";
+import { escapeHtml, formatPrice, bookCardHTML, bookDetailHTML } from "../public/app.js";
 
 const sample = {
   id: "quiet-orbit",
@@ -38,5 +38,49 @@ describe("bookCardHTML", () => {
     // The angle brackets must be escaped, so no real <img ...> tag appears.
     expect(html).not.toContain("<img");
     expect(html).toContain("&lt;img");
+  });
+
+  it("shows low-stock cues only for stock values 1 through 3", () => {
+    const stockCases = [
+      { stock: 0, message: null },
+      { stock: 1, message: "Only 1 copy left" },
+      { stock: 2, message: "Only 2 copies left" },
+      { stock: 3, message: "Only 3 copies left" },
+      { stock: 4, message: null },
+    ];
+
+    for (const { stock, message } of stockCases) {
+      const html = bookCardHTML({ ...sample, stock });
+      if (message) {
+        expect(html).toContain(`<p class="low-stock">${message}</p>`);
+      } else {
+        expect(html).not.toContain("low-stock");
+        expect(html).not.toContain("copy left");
+        expect(html).not.toContain("copies left");
+      }
+    }
+  });
+});
+
+describe("bookDetailHTML", () => {
+  it("shows low-stock cues only for stock values 1 through 3", () => {
+    const stockCases = [
+      { stock: 0, message: null },
+      { stock: 1, message: "Only 1 copy left" },
+      { stock: 2, message: "Only 2 copies left" },
+      { stock: 3, message: "Only 3 copies left" },
+      { stock: 4, message: null },
+    ];
+
+    for (const { stock, message } of stockCases) {
+      const html = bookDetailHTML({ ...sample, stock });
+      if (message) {
+        expect(html).toContain(`<p class="low-stock">${message}</p>`);
+      } else {
+        expect(html).not.toContain("low-stock");
+        expect(html).not.toContain("copy left");
+        expect(html).not.toContain("copies left");
+      }
+    }
   });
 });
