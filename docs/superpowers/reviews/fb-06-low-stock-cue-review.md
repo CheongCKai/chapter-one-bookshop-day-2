@@ -1,10 +1,10 @@
 # Final Review — Issue #9 / FB-06
 
-**Feature:** Low-stock cue  
-**Spec:** `docs/superpowers/specs/2026-10-28-fb-06-low-stock-cue-design.md`  
-**Plan:** `docs/superpowers/plans/2026-10-28-fb-06-low-stock-cue.md`  
-**Base:** `origin/main` — `ed400656b2bf17de811d9354fd7781681b88868a`  
-**Reviewed head:** `23d72f91279d930e9ed6e147820a2568b1a4f19d`  
+**Feature:** Low-stock cue
+**Spec:** `docs/superpowers/specs/2026-10-28-fb-06-low-stock-cue-design.md`
+**Plan:** `docs/superpowers/plans/2026-10-28-fb-06-low-stock-cue.md`
+**Base:** `origin/main` — `ed400656b2bf17de811d9354fd7781681b88868a`
+**Reviewed head:** `23d72f91279d930e9ed6e147820a2568b1a4f19d`
 **Reviewed range:** `ed400656b2bf17de811d9354fd7781681b88868a...23d72f91279d930e9ed6e147820a2568b1a4f19d`
 
 ## Review results
