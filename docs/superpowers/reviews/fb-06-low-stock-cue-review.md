@@ -18,14 +18,14 @@
 
 ## Verification
 
-| Command | Result |
-|---|---|
-| `npm run format:check` | Passed |
-| `npm run lint` | Passed |
-| `npm run typecheck` | Passed |
-| `npm test` | Passed — 3 test files, 14 tests |
-| `npm audit --audit-level=high` | Passed — one moderate `qs@6.16.0` advisory; no high-severity findings |
-| `git diff --check origin/main...HEAD` | Passed |
+| Command                               | Result                                                                |
+| ------------------------------------- | --------------------------------------------------------------------- |
+| `npm run format:check`                | Passed                                                                |
+| `npm run lint`                        | Passed                                                                |
+| `npm run typecheck`                   | Passed                                                                |
+| `npm test`                            | Passed — 3 test files, 14 tests                                       |
+| `npm audit --audit-level=high`        | Passed — one moderate `qs@6.16.0` advisory; no high-severity findings |
+| `git diff --check origin/main...HEAD` | Passed                                                                |
 
 The moderate `qs` advisory is present in `origin/main` and is not introduced by this change. Platform CI status could not be queried in this session and remains pending as a merge gate.
 

@@ -5,7 +5,9 @@ Traces to: issue #9 / F3 / FB-06
 ## Approval
 
 - Mode: approved-issue mode
-- Recorded approval: `ready-for-agent` applied by `@pengbin`, a write-enabled user, per the task context and repository approval policy
+- Recorded approval: `ready-for-agent` applied by `@pengbin2015`, a write-enabled user, per the repository approval policy
+- Approval evidence: <https://github.com/pengbin2015/chapter-one-bookshop-day-2/issues/9#issuecomment-6458427150>
+- Approved issue-body SHA-256: `c6d3e4b0831cf10113f230bf90b5fb64b9dcc00536a06d82966b752e33f5844c`
 - Approved source: issue #9 scope and plan supplied in the task context
 - Design snapshot date: 2026-10-28
 

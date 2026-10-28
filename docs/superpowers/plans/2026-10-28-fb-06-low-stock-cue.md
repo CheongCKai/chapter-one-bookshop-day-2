@@ -69,6 +69,9 @@
 
 ## Approval
 
-Approved issue: #9. `ready-for-agent` approval applied by `@pengbin` per the task context and repository issue policy.
+Approved issue: #9. `ready-for-agent` approval applied by `@pengbin2015` per the repository issue policy.
+
+Approval evidence: <https://github.com/pengbin2015/chapter-one-bookshop-day-2/issues/9#issuecomment-6458427150>.
+Approved issue-body SHA-256: `c6d3e4b0831cf10113f230bf90b5fb64b9dcc00536a06d82966b752e33f5844c`.
 
 Status: Approved
